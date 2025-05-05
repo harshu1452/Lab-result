@@ -1,0 +1,62 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: labresult-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/food_delivery
+    username: root
+    password: "[password]"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: labresult-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  security:
+    jwt:
+      secret: mysecretkey
+      expiration: 86400000 # 1 day in milliseconds
+
+logging:
+  level:
+    root: INFO
+    turing.example.labresult: DEBUG
+    org.springframework: WARN
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+swagger:
+  api:
+    title: "Lab Result API"
+    description: "API for managing lab test results"
+    version: "1.0.0"
+    termsOfServiceUrl: "https://example.com/terms"
+    contact:
+      name: "Support Team"
+      email: "support@example.com"
+    license:
+      name: "Apache 2.0"
+      url: "https://www.apache.org/licenses/LICENSE-2.0.html"
